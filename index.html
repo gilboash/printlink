@@ -3,21 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrintLink App</title>
-    <!-- Load React (Development version) -->
+    <title>PrintLink App - Fixed</title>
+    <!-- Load React, ReactDOM, Babel, Tailwind -->
     <script src="https://unpkg.com/react/umd/react.development.js"></script>
-    <!-- Load ReactDOM (React DOM manipulation) -->
     <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
-    <!-- Load Babel Standalone (to compile JSX in the browser) -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- Load Tailwind CSS (Utility classes for styling) -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Load Firebase Modules Globally -->
+    <script type="module">
+        // Import all necessary Firebase modules
+        import * as firebaseApp from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import * as firebaseAuth from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import * as firestore from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Expose Firebase functions to the global window object for the JSX script to access
+        window.initializeApp = firebaseApp.initializeApp;
+        window.getAuth = firebaseAuth.getAuth;
+        window.signInAnonymously = firebaseAuth.signInAnonymously;
+        window.signInWithCustomToken = firebaseAuth.signInWithCustomToken;
+        window.onAuthStateChanged = firebaseAuth.onAuthStateChanged;
+        window.setPersistence = firebaseAuth.setPersistence;
+        window.browserSessionPersistence = firebaseAuth.browserSessionPersistence;
+
+        window.getFirestore = firestore.getFirestore;
+        window.collection = firestore.collection;
+        window.addDoc = firestore.addDoc;
+        window.onSnapshot = firestore.onSnapshot;
+        window.query = firestore.query;
+        window.updateDoc = firestore.updateDoc;
+        window.doc = firestore.doc;
+        window.serverTimestamp = firestore.serverTimestamp;
+        window.setLogLevel = firestore.setLogLevel;
+        
+        // Expose React hooks globally
+        window.useState = React.useState;
+        window.useEffect = React.useEffect;
+        window.useCallback = React.useCallback;
+    </script>
 </head>
 <body>
-    <!-- Container where React app mounts -->
     <div id="root"></div>
-
-    <!-- Load your application file as type="text/babel" -->
+    <!-- Load your application code -->
     <script type="text/babel" src="./PrintLink.jsx"></script>
 </body>
 </html>
