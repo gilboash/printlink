@@ -4,17 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PrintLink App</title>
-    <!-- Load the necessary React/Babel dependencies -->
-    <script src="[https://unpkg.com/react/umd/react.development.js](https://unpkg.com/react/umd/react.development.js)"></script>
-    <script src="[https://unpkg.com/react-dom/umd/react-dom.development.js](https://unpkg.com/react-dom/umd/react-dom.development.js)"></script>
-    <script src="[https://unpkg.com/@babel/standalone/babel.min.js](https://unpkg.com/@babel/standalone/babel.min.js)"></script>
-    <!-- Load Tailwind for styling -->
-    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <!-- Load React (Development version) -->
+    <script src="https://unpkg.com/react/umd/react.development.js"></script>
+    <!-- Load ReactDOM (React DOM manipulation) -->
+    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <!-- Load Babel Standalone (to compile JSX in the browser) -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Load Tailwind CSS (Utility classes for styling) -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
+    <!-- Container where React app mounts -->
     <div id="root"></div>
 
-    <!-- Load your application file as a text/babel script -->
+    <!-- Load your application file as type="text/babel" -->
     <script type="text/babel" src="./PrintLink.jsx"></script>
 </body>
 </html>
