@@ -3,33 +3,19 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>PrintLink App - Fixed</title>
+    <title>PrintLink App</title>
 
-    <!-- React & Babel (dev pattern) -->
-    <script src="https://unpkg.com/react/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- React & Babel — MUST use defer to guarantee execution order -->
+    <script defer src="https://unpkg.com/react/umd/react.development.js"></script>
+    <script defer src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+    <script defer src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind -->
+    <script defer src="https://cdn.tailwindcss.com"></script>
 
-    <!--
-      Put your firebase client config below as a JS object. Example:
-      window.__firebase_config = {
-        apiKey: "...",
-        authDomain: "...",
-        projectId: "...",
-        storageBucket: "...",
-        messagingSenderId: "...",
-        appId: "..."
-      };
-      Replace the values with your project's client config (from Firebase console -> SDK setup).
-      Do NOT include service account private keys.
-    -->
+    <!-- Firebase config (replace values below with YOUR actual config) -->
     <script>
-      // --- PLACEHOLDER: replace with your actual Firebase client config object ---
       window.__firebase_config = {
-        // <<REPLACE with your firebase client config>>
         apiKey: "REPLACE_ME",
         authDomain: "REPLACE_ME.firebaseapp.com",
         projectId: "REPLACE_ME",
@@ -37,44 +23,61 @@
         messagingSenderId: "REPLACE_ME",
         appId: "REPLACE_ME"
       };
-
-      // Optionally set an initial auth token if you use custom tokens:
-      // window.__initial_auth_token = "eyJ..."; // optional
     </script>
 
-    <!-- Load Firebase modules as module script and expose the functions we use -->
+    <!-- Firebase module loader -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, onSnapshot, query, updateDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import {
+            initializeApp
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 
-        // Expose to window so the Babel-transpiled JSX can access them synchronously.
+        import {
+            getAuth,
+            signInAnonymously,
+            signInWithCustomToken,
+            onAuthStateChanged,
+            setPersistence,
+            browserSessionPersistence
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            onSnapshot,
+            query,
+            updateDoc,
+            doc,
+            serverTimestamp
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Expose everything to React app
         window.firebaseHelpers = {
-          initializeApp,
-          getAuth,
-          signInAnonymously,
-          signInWithCustomToken,
-          onAuthStateChanged,
-          setPersistence,
-          browserSessionPersistence,
-          getFirestore,
-          collection,
-          addDoc,
-          onSnapshot,
-          query,
-          updateDoc,
-          doc,
-          serverTimestamp
+            initializeApp,
+            getAuth,
+            signInAnonymously,
+            signInWithCustomToken,
+            onAuthStateChanged,
+            setPersistence,
+            browserSessionPersistence,
+            getFirestore,
+            collection,
+            addDoc,
+            onSnapshot,
+            query,
+            updateDoc,
+            doc,
+            serverTimestamp
         };
 
-        console.info("Firebase modules loaded and exposed on window.firebaseHelpers");
+        console.log("Firebase helpers ready.");
     </script>
 </head>
+
 <body>
     <div id="root"></div>
 
-    <!-- Application code (Babel in-browser for quick debug/deploy) -->
-    <!-- Note: In production you should build/transpile with a bundler and serve compiled JS. -->
-    <script type="text/babel" src="./PrintLink.jsx" defer></script>
+    <!-- Your JSX — MUST be last and MUST use defer -->
+    <script defer type="text/babel" src="./PrintLink.jsx"></script>
 </body>
 </html>
