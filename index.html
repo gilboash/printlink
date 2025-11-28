@@ -1,50 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>PrintLink App - Fixed</title>
-    <!-- Load React, ReactDOM, Babel, Tailwind -->
+
+    <!-- React & Babel (dev pattern) -->
     <script src="https://unpkg.com/react/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Load Firebase Modules Globally -->
+    <!--
+      Put your firebase client config below as a JS object. Example:
+      window.__firebase_config = {
+        apiKey: "...",
+        authDomain: "...",
+        projectId: "...",
+        storageBucket: "...",
+        messagingSenderId: "...",
+        appId: "..."
+      };
+      Replace the values with your project's client config (from Firebase console -> SDK setup).
+      Do NOT include service account private keys.
+    -->
+    <script>
+      // --- PLACEHOLDER: replace with your actual Firebase client config object ---
+      window.__firebase_config = {
+        // <<REPLACE with your firebase client config>>
+        apiKey: "REPLACE_ME",
+        authDomain: "REPLACE_ME.firebaseapp.com",
+        projectId: "REPLACE_ME",
+        storageBucket: "REPLACE_ME.appspot.com",
+        messagingSenderId: "REPLACE_ME",
+        appId: "REPLACE_ME"
+      };
+
+      // Optionally set an initial auth token if you use custom tokens:
+      // window.__initial_auth_token = "eyJ..."; // optional
+    </script>
+
+    <!-- Load Firebase modules as module script and expose the functions we use -->
     <script type="module">
-        // Import all necessary Firebase modules
-        import * as firebaseApp from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import * as firebaseAuth from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import * as firestore from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, setPersistence, browserSessionPersistence } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, updateDoc, doc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // Expose Firebase functions to the global window object for the JSX script to access
-        window.initializeApp = firebaseApp.initializeApp;
-        window.getAuth = firebaseAuth.getAuth;
-        window.signInAnonymously = firebaseAuth.signInAnonymously;
-        window.signInWithCustomToken = firebaseAuth.signInWithCustomToken;
-        window.onAuthStateChanged = firebaseAuth.onAuthStateChanged;
-        window.setPersistence = firebaseAuth.setPersistence;
-        window.browserSessionPersistence = firebaseAuth.browserSessionPersistence;
+        // Expose to window so the Babel-transpiled JSX can access them synchronously.
+        window.firebaseHelpers = {
+          initializeApp,
+          getAuth,
+          signInAnonymously,
+          signInWithCustomToken,
+          onAuthStateChanged,
+          setPersistence,
+          browserSessionPersistence,
+          getFirestore,
+          collection,
+          addDoc,
+          onSnapshot,
+          query,
+          updateDoc,
+          doc,
+          serverTimestamp
+        };
 
-        window.getFirestore = firestore.getFirestore;
-        window.collection = firestore.collection;
-        window.addDoc = firestore.addDoc;
-        window.onSnapshot = firestore.onSnapshot;
-        window.query = firestore.query;
-        window.updateDoc = firestore.updateDoc;
-        window.doc = firestore.doc;
-        window.serverTimestamp = firestore.serverTimestamp;
-        window.setLogLevel = firestore.setLogLevel;
-        
-        // Expose React hooks globally
-        window.useState = React.useState;
-        window.useEffect = React.useEffect;
-        window.useCallback = React.useCallback;
+        console.info("Firebase modules loaded and exposed on window.firebaseHelpers");
     </script>
 </head>
 <body>
     <div id="root"></div>
-    <!-- Load your application code -->
-    <script type="text/babel" src="./PrintLink.jsx"></script>
+
+    <!-- Application code (Babel in-browser for quick debug/deploy) -->
+    <!-- Note: In production you should build/transpile with a bundler and serve compiled JS. -->
+    <script type="text/babel" src="./PrintLink.jsx" defer></script>
 </body>
 </html>
